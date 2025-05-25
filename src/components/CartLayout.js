@@ -15,9 +15,6 @@ function CartLayout() {
     const [cartItems, setCartItems] = useState([]); // State để lưu danh sách sản phẩm
     const [click, onCLick] = useState(0);
     useEffect(() => {
-        window.scrollTo({ top: 800, behavior: "smooth" });
-    }, []);
-    useEffect(() => {
         let isMounted = true; // Biến để kiểm tra component có còn mounted không
 
         const fetchData = async () => {
@@ -28,7 +25,7 @@ function CartLayout() {
                 const productRequests = cartItems.map(item =>
                     axios.get(getUri() + `/products/${item.id}`)
                         .then(res => {
-                            if (res.data.length == 0){
+                            if (res.data.length == 0) {
                                 removeProductFromCart(item.id)
                             }
                             return ({
@@ -67,75 +64,76 @@ function CartLayout() {
     return (
         <>
             <ToastContainer />
-            <div className="cart-layout" onClick={() => onCLick(click + 1)} onKeyDown={() => onCLick(click + 1)}>
-                <div className="cart-products-container">
-                    <div style={{ width: "100%", height: "30px", backgroundColor: "rgb(32, 32, 32)", display: "flex", alignItems: "center", color: "white", fontWeight: "300" }}>
-                        <p style={{ margin: "0px 10px" }}>{cartItems.length} SẢN PHẨM</p>
-                    </div>
-                    <div className="cart-products">
-                        {cartItems.length === 0 ? (
-                            <>
-                                <div style={{ width: "200px", height: "400px", display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center", margin: "auto auto" }}>
-                                    <div>
-                                        <PackageOpen size={150} strokeWidth={1} color="rgb(219, 219, 219)" />
+            <div className="box-main">
+                <div className="cart-layout" onClick={() => onCLick(click + 1)} onKeyDown={() => onCLick(click + 1)}>
+                    <div className="cart-products-container">
+                        <div style={{ width: "100%", height: "30px", backgroundColor: "var(--primary-color)", display: "flex", alignItems: "center", color: "white", fontWeight: "300" }}>
+                            <p style={{ margin: "0px 10px" }}>{cartItems.length} SẢN PHẨM</p>
+                        </div>
+                        <div className="cart-products">
+                            {cartItems.length === 0 ? (
+                                <>
+                                    <div style={{ width: "200px", height: "400px", display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center", margin: "auto auto" }}>
+                                        <div>
+                                            <PackageOpen size={150} strokeWidth={1} color="rgb(219, 219, 219)" />
+                                        </div>
+                                        <p style={{ fontSize: "20px", color: "rgb(101, 101, 101)" }}>Giỏ hàng trống !</p>
                                     </div>
-                                    <p style={{ fontSize: "20px", color: "rgb(101, 101, 101)" }}>Giỏ hàng trống !</p>
-                                </div>
-                            </>
-                        ) : (
-                            cartItems.map((product) => {
-                                if (!product) return <></>;
-                                if (!product.product_imgs) return <></>;
-                                const imgNames = JSON.parse(product.product_imgs);
-                                const imageName = imgNames.find(i => i.startsWith('1-'))?.split('-')[1] || imgNames[0].split('-')[1];
+                                </>
+                            ) : (
+                                cartItems.map((product) => {
+                                    if (!product) return <></>;
+                                    if (!product.product_imgs) return <></>;
+                                    const imgNames = JSON.parse(product.product_imgs);
+                                    const imageName = imgNames.find(i => i.startsWith('1-'))?.split('-')[1] || imgNames[0].split('-')[1];
 
-                                return (
-                                    <QuantityProvider key={product.id} defaultvalue={product.quantity}>
-                                        <ProductCartItem
-                                            setTotalPrice={() => { }}
-                                            id={product.product_id}
-                                            displayName={product.display_name}
-                                            price={product.price}
-                                            cateName={product.category_name}
-                                            img={getUri() + "/product/get-imgs/product_imgs/" + imageName}
-                                        />
-                                    </QuantityProvider>
-                                )
-                            })
-                        )}
-                    </div>
-                </div>
-                <div className="cart-summary-container">
-                    <div style={{ maxWidth: "100%", padding: "5px", backgroundColor: "rgb(16, 16, 16)", color: "white" }}>
-                        Thông tin thanh toán
-                    </div>
-
-                    <div className="summary-info">
-                        <p className="form-title">chi tiết tiền hàng</p>
-
-                        <div className="summary-item">
-                            <p>Tổng tiền hàng: </p><p>{totalprice ? (totalprice).toLocaleString('de-DE') : 0} đ</p>
-                        </div>
-                        <div className="summary-item">
-                            <p>Tổng giá giảm: </p><p>0 đ</p>
-                        </div>
-                        <div className="summary-item totalprice">
-                            <p>Thành tiền: </p><p style={{ color: "red" }}>{totalprice ? (finalPrice).toLocaleString('de-DE') : 0} đ</p>
+                                    return (
+                                        <QuantityProvider key={product.id} defaultvalue={product.quantity}>
+                                            <ProductCartItem
+                                                setTotalPrice={() => { }}
+                                                id={product.product_id}
+                                                displayName={product.display_name}
+                                                price={product.price}
+                                                cateName={product.category_name}
+                                                img={getUri() + "/product/get-imgs/product_imgs/" + imageName}
+                                            />
+                                        </QuantityProvider>
+                                    )
+                                })
+                            )}
                         </div>
                     </div>
-                    <button onClick={() => {
-                        if (getProductFromCart() === "NONE") {
-                            toast.info("Giỏ hàng trống!", {})
-                            return;
-                        };
+                    <div className="cart-summary-container">
+                        <div style={{ maxWidth: "100%", padding: "5px", backgroundColor: "var(--primary-color)", color: "white" }}>
+                            Thông tin thanh toán
+                        </div>
 
-                        nav("/order-confirm");
-                    }} className="summary-sumbit-btn" style={{ maxWidth: "100%", padding: "10px", backgroundColor: "rgb(46, 158, 93)", color: "white", textAlign: "center", cursor: "pointer" }}>
-                        ĐẶT HÀNG
-                    </button>
+                        <div className="summary-info">
+                            <p className="form-title">chi tiết tiền hàng</p>
+
+                            <div className="summary-item">
+                                <p>Tổng tiền hàng: </p><p>{totalprice ? (totalprice).toLocaleString('de-DE') : 0} đ</p>
+                            </div>
+                            <div className="summary-item">
+                                <p>Tổng giá giảm: </p><p>0 đ</p>
+                            </div>
+                            <div className="summary-item totalprice">
+                                <p>Thành tiền: </p><p style={{ color: "red" }}>{totalprice ? (finalPrice).toLocaleString('de-DE') : 0} đ</p>
+                            </div>
+                        </div>
+                        <button onClick={() => {
+                            if (getProductFromCart() === "NONE") {
+                                toast.info("Giỏ hàng trống!", {})
+                                return;
+                            };
+
+                            nav("/order-confirm");
+                        }} className="summary-sumbit-btn">
+                            ĐẶT HÀNG
+                        </button>
+                    </div>
                 </div>
             </div>
-
         </>
     )
 }

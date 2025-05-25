@@ -116,7 +116,7 @@ function MainLayout() {
             }).catch((err) => {
                 console.log(err);
                 setAccountNav(<>
-                    <button style={{ color: "white", width: "150px", cursor: "pointer", height: "40px", backgroundColor: "transparent", fontSize: "16px", fontWeight: "550", outline: "none", border: "none" }} onClick={() => {
+                    <button style={{ color: "black", width: "150px", cursor: "pointer", height: "40px", backgroundColor: "transparent", fontSize: "16px", fontWeight: "550", outline: "none", border: "none" }} onClick={() => {
                         nav("/account");
                     }}>Tài khoản</button>
                 </>)
@@ -204,7 +204,7 @@ function MainLayout() {
                         <ShopFooter />
                     </footer>
                     <div className="contacts-container">
-                        <PhoneCall size="auto" color="white" />
+                        <PhoneCall size="50" color="white" />
                         <div className="contact-item facebook">
                             <Facebook size="auto" color="white" />
                         </div>

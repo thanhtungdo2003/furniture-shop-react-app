@@ -57,7 +57,7 @@ function ProductDetail() {
 
     useEffect(() => {
         axios.post("http://localhost:3000/api/products-get-by-params", {
-            row: 5,
+            row: 4,
             page: 1,
             keyword: "",
             category_slug: productData.category_slug,
@@ -86,85 +86,88 @@ function ProductDetail() {
 
     return (
         <>
-            <div className="detail-container">
-                <div className="imgs-container">
-                    <ChildProductImg images={JSON.parse(productData.product_imgs)} />
-                </div>
-                <div className="info-container">
-                    <div className="info-display-name">{productData.display_name}</div>
-                    <div className="info-cate-display">
-                        <a>{productData.category_name}</a>
+            <div className="box-main">
+                <div className="detail-container">
+                    <div className="imgs-container">
+                        <ChildProductImg images={JSON.parse(productData.product_imgs)} />
                     </div>
-                    <div className="info-price">
-                        <p>₫ {(productData.price).toLocaleString("de-DE")} </p>
-                    </div>
-                    <div style={{ fontWeight: "100", fontSize: "12px", color: "rgb(83, 83, 83)" }}>{productData.product_id}</div>
-                    <div className="oder-container" style={{ width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <QuantitySelector max={100} val={1} min={1} id={"quantity-value-detail"} />
-                        <button style={{
-                            backgroundColor: "rgb(21, 21, 21)", color: "white", width: "200px", height: "100%"
-                            , border: "none", outline: "none", fontSize: "17px", borderRadius: "4px", cursor: "pointer"
-                        }} onClick={() => { if (addProductToCart(product)) { addProductSuccessNotify() } else { notAddProductNotify() } }}>Thêm vào giỏ hàng</button>
-                    </div>
-                    <div style={{ fontSize: "14px", fontWeight: "550" }}>
-                        <p>
-                            {
-                                inStock ? <p style={{ color: "rgb(46, 181, 102)" }}>Còn hàng</p> : <p style={{ color: "rgb(246, 58, 55)" }}>Hết hàng</p>
-                            }
-                        </p>
-                        <p>
-                            {productData.totalSelled ?? 0} đã bán
-                        </p>
-                    </div>
-                    <div>
-                        <p style={{ fontWeight: "550" }}>THÔNG TIN</p>
-                        <p dangerouslySetInnerHTML={{ __html: productData.pramaters.replace(/\n/g, "<br>") }} />
-
-                    </div>
-                    <div style={{ fontSize: "14px", display: "flex", flexDirection: "column", gap: "5px" }}>
-                        <p style={{ fontWeight: "550", fontSize: "16px" }}>THÔNG TIN DỊCH VỤ</p>
-                        <div style={{ with: "100%", height: "30px", backgroundColor: "rgba(1, 1, 1, 0.09)", display: "flex", alignItems: "center", gap: "5px" }}>
-                            <img src={guaranteeIcon} style={{ width: "24px" }} />Chứng nhận của Bộ Công Thương <p style={{ color: "rgb(255, 58, 58)" }}>203</p>
+                    <div className="info-container">
+                        <div className="info-display-name">{productData.display_name}</div>
+                        <div className="info-cate-display">
+                            <a>{productData.category_name}</a>
                         </div>
-                        <div style={{ with: "100%", padding: "5px", backgroundColor: "rgba(0, 0, 0, 0.09)", display: "flex", gap: "5px" }}>
-                            <img src={freeshipIcon} style={{ width: "24px", height: "24px" }} />
-                            <div style={{}}>
-                                <span>
-                                    Đơn hàng có giá trị từ <strong style={{ color: "rgb(255, 58, 58)" }}>300.000 (đ)</strong>, miễn phí vận chuyển [ tối đa 15.000 (đ) ].
-                                </span>
-                                <br></br>
-                                <span>
-                                    Đơn hàng có giá trị <strong style={{ color: "rgb(255, 58, 58)" }}>500.000 (đ)</strong>, miễn phí vận chuyển [ tối đa 35.000 (đ) ].
-                                </span>
+                        <div className="info-price">
+                            <p>₫ {(productData.price).toLocaleString("de-DE")} </p>
+                        </div>
+                        <div style={{ fontWeight: "100", fontSize: "12px", color: "rgb(83, 83, 83)" }}>{productData.product_id}</div>
+                        <div className="oder-container" style={{ width: "70%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <QuantitySelector max={100} val={1} min={1} id={"quantity-value-detail"} />
+                            <button style={{
+                                backgroundColor: "rgb(21, 21, 21)", color: "white", width: "200px", height: "100%"
+                                , border: "none", outline: "none", fontSize: "17px", borderRadius: "4px", cursor: "pointer"
+                            }} onClick={() => { if (addProductToCart(product)) { addProductSuccessNotify() } else { notAddProductNotify() } }}>Thêm vào giỏ hàng</button>
+                        </div>
+                        <div style={{ fontSize: "14px", fontWeight: "550" }}>
+                            <p>
+                                {
+                                    inStock ? <p style={{ color: "rgb(46, 181, 102)" }}>Còn hàng</p> : <p style={{ color: "rgb(246, 58, 55)" }}>Hết hàng</p>
+                                }
+                            </p>
+                            <p>
+                                {productData.totalSelled ?? 0} đã bán
+                            </p>
+                        </div>
+                        <div>
+                            <p style={{ fontWeight: "550" }}>THÔNG TIN</p>
+                            <p dangerouslySetInnerHTML={{ __html: productData.pramaters.replace(/\n/g, "<br>") }} />
+
+                        </div>
+                        <div style={{ fontSize: "14px", display: "flex", flexDirection: "column", gap: "5px" }}>
+                            <p style={{ fontWeight: "550", fontSize: "16px" }}>THÔNG TIN DỊCH VỤ</p>
+                            <div style={{ with: "100%", height: "30px", backgroundColor: "rgba(1, 1, 1, 0.09)", display: "flex", alignItems: "center", gap: "5px" }}>
+                                <img src={guaranteeIcon} style={{ width: "24px" }} />Chứng nhận của Bộ Công Thương <p style={{ color: "rgb(255, 58, 58)" }}>203</p>
                             </div>
+                            <div style={{ with: "100%", padding: "5px", backgroundColor: "rgba(0, 0, 0, 0.09)", display: "flex", gap: "5px" }}>
+                                <img src={freeshipIcon} style={{ width: "24px", height: "24px" }} />
+                                <div style={{}}>
+                                    <span>
+                                        Đơn hàng có giá trị từ <strong style={{ color: "rgb(255, 58, 58)" }}>300.000 (đ)</strong>, miễn phí vận chuyển [ tối đa 15.000 (đ) ].
+                                    </span>
+                                    <br></br>
+                                    <span>
+                                        Đơn hàng có giá trị <strong style={{ color: "rgb(255, 58, 58)" }}>500.000 (đ)</strong>, miễn phí vận chuyển [ tối đa 35.000 (đ) ].
+                                    </span>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="product-container">
-                <div style={{ display: "flex", justifyContent: "space-between", width: "100%", height: "30px" }}>
-                    <div className="product-container-title">
-                        <p>SẢN PHẨM LIÊN QUAN</p>
+                <div className="product-container">
+                    <div style={{ display: "flex", justifyContent: "space-between", width: "100%", height: "30px" }}>
+                        <div className="product-container-title">
+                            <p>SẢN PHẨM LIÊN QUAN</p>
+                        </div>
+                        <div className="product-container-more-btn">
+                            <p>xem thêm {">>"}</p>
+                        </div>
                     </div>
-                    <div className="product-container-more-btn">
-                        <p>xem thêm {">>"}</p>
+                    <div className="products">
+                        {productRelates}
                     </div>
                 </div>
-                <div className="products">
-                    {productRelates}
-                </div>
-            </div>
-            <div style={{ width: "100%", backgroundColor: "rgba(0, 0, 0, 0.06)", paddingLeft: "10px", paddingTop: "10px" }}>
-                <strong style={{ fontSize: "17px", fontWeight: "560", color: "black" }}>MÔ TẢ SẢN PHẨM</strong>
-                <p style={{
-                    wordWrap: "break-word", /* Xuống dòng nếu từ quá dài */
-                    overflowWrap: "break-word"
-                }}>
-                    <p dangerouslySetInnerHTML={{ __html: productData.description.replace(/\n/g, "<br>") }} style={{ color: "#555" }} />
+                <div style={{ width: "100%", backgroundColor: "rgba(0, 0, 0, 0.06)", paddingLeft: "10px", paddingTop: "10px" }}>
+                    <strong style={{ fontSize: "17px", fontWeight: "560", color: "black" }}>MÔ TẢ SẢN PHẨM</strong>
+                    <p style={{
+                        wordWrap: "break-word", /* Xuống dòng nếu từ quá dài */
+                        overflowWrap: "break-word"
+                    }}>
+                        <p dangerouslySetInnerHTML={{ __html: productData.description.replace(/\n/g, "<br>") }} style={{ color: "#555" }} />
 
-                </p>
+                    </p>
+                </div>
             </div>
+
         </>
     )
 }
